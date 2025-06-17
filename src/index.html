@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レトロテトリス - 80年代風パズルゲーム</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'pixel': ['monospace']
+                    },
+                    colors: {
+                        'neon-cyan': '#00ffff',
+                        'neon-pink': '#ff00ff',
+                        'neon-green': '#00ff00',
+                        'neon-yellow': '#ffff00',
+                        'neon-orange': '#ff8000',
+                        'neon-blue': '#0080ff',
+                        'neon-red': '#ff0040',
+                        'retro-bg': '#0a0a0a',
+                        'retro-border': '#333333'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-retro-bg text-white font-pixel overflow-hidden">
+    <div class="min-h-screen flex flex-col items-center justify-center p-4">
+        <!-- Game Title -->
+        <div class="text-center mb-6">
+            <h1 class="text-6xl font-bold mb-2 text-neon-cyan drop-shadow-lg">
+                レトロテトリス
+            </h1>
+            <p class="text-xl text-neon-pink">
+                80年代風パズルゲーム
+            </p>
+        </div>
+
+        <!-- Game Container -->
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
+            <!-- Game Board -->
+            <div class="relative">
+                <div class="border-4 border-neon-cyan bg-black p-2">
+                    <canvas id="gameCanvas" width="300" height="600" class="border-2 border-retro-border"></canvas>
+                </div>
+                
+                <!-- Game Over Screen -->
+                <div id="gameOverScreen" class="absolute inset-0 bg-black bg-opacity-90 flex items-center justify-center hidden">
+                    <div class="text-center">
+                        <h2 class="text-4xl font-bold text-neon-red mb-4">GAME OVER</h2>
+                        <p class="text-xl text-neon-yellow mb-4">スコア: <span id="finalScore">0</span></p>
+                        <button id="restartBtn" class="bg-neon-green text-black px-6 py-3 text-xl font-bold hover:bg-neon-yellow transition-colors">
+                            もう一度プレイ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Info Panel -->
+            <div class="flex flex-col gap-4">
+                <!-- Score -->
+                <div class="border-2 border-neon-green bg-black p-4 min-w-[200px]">
+                    <h3 class="text-xl font-bold text-neon-green mb-2">スコア</h3>
+                    <p id="score" class="text-3xl font-bold text-neon-yellow">0</p>
+                </div>
+
+                <!-- Level -->
+                <div class="border-2 border-neon-blue bg-black p-4">
+                    <h3 class="text-xl font-bold text-neon-blue mb-2">レベル</h3>
+                    <p id="level" class="text-3xl font-bold text-neon-yellow">1</p>
+                </div>
+
+                <!-- Lines -->
+                <div class="border-2 border-neon-orange bg-black p-4">
+                    <h3 class="text-xl font-bold text-neon-orange mb-2">ライン数</h3>
+                    <p id="lines" class="text-3xl font-bold text-neon-yellow">0</p>
+                </div>
+
+                <!-- Next Piece -->
+                <div class="border-2 border-neon-pink bg-black p-4">
+                    <h3 class="text-xl font-bold text-neon-pink mb-2">次のピース</h3>
+                    <canvas id="nextCanvas" width="120" height="120" class="border border-retro-border"></canvas>
+                </div>
+
+                <!-- Controls -->
+                <div class="border-2 border-neon-cyan bg-black p-4">
+                    <h3 class="text-xl font-bold text-neon-cyan mb-2">操作</h3>
+                    <div class="text-sm space-y-1">
+                        <p>← → : 移動</p>
+                        <p>↓ : 高速落下</p>
+                        <p>↑ : 回転</p>
+                        <p>Space : ハードドロップ</p>
+                        <p>P : ポーズ</p>
+                    </div>
+                </div>
+
+                <!-- Sound Control -->
+                <div class="border-2 border-neon-yellow bg-black p-4">
+                    <h3 class="text-xl font-bold text-neon-yellow mb-2">サウンド</h3>
+                    <button id="soundToggle" class="bg-neon-green text-black px-4 py-2 font-bold hover:bg-neon-yellow transition-colors">
+                        BGM ON
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="startScreen" class="absolute inset-0 bg-retro-bg flex items-center justify-center">
+            <div class="text-center">
+                <h1 class="text-8xl font-bold mb-8 text-neon-cyan animate-pulse">
+                    TETRIS
+                </h1>
+                <p class="text-2xl text-neon-pink mb-8">
+                    80年代レトロスタイル
+                </p>
+                <button id="startBtn" class="bg-neon-green text-black px-8 py-4 text-2xl font-bold hover:bg-neon-yellow transition-colors animate-bounce">
+                    ゲーム開始
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="bgm" loop>
+        <!-- BGM will be created dynamically using Web Audio API -->
+    </audio>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
